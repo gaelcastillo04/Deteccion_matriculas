@@ -12,8 +12,8 @@ def imageProcessing(fileName):
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # Alpha is used for contrast, while beta is used for brightness.
     imgContrast = cv2.convertScaleAbs(imgGray, 
-                                               alpha=1.75, 
-                                               beta=-300)
+                                      alpha=1.75, 
+                                      beta=-300)
     
     # Store the modified image
     cv2.imwrite(f"{fileName}_contrast.png", imgContrast)
