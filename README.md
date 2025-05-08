@@ -17,6 +17,7 @@ Because **sys** is part of Python's standard library, it does not require instal
 
 - ### System Dependencies for EasyOCR
   The package **EasyOCR** depends on PyTorch, so it must be installed as well:
+  
   `pip install torch torchvision torchaudio`
 
 ### 3. Input files
@@ -24,7 +25,7 @@ For safety reasons, the Credentials used to test this code are not included in t
 you must first add them inside the code, in the *names* and *ids* arrays respectively. 
 
 Please take into consideration:
-- The names that are included in the *names* array must be all uppercase for the text detection to work properly.
+- The names that are included in the *names* array and *ids* array must be all uppercase for the text detection to work properly.
 - The image files to be used must be in the same folder in which the *main.py* file is located.
 - Every name must have a matching ID with it. However, the order of the names and IDs in the arrays do not matter.
 
@@ -53,3 +54,8 @@ Furthermore, a `main` function is used to validate that the detected IDs and nam
 
 Apart from function definitions, the script contains the necessary OCR reader initialization, the arrays for names and IDs, 
 and a condition that validates that the `main` function is only executed if the script is executed from the terminal.
+
+##Future improvements
+Matching text validation currently only works through manually-added data in the respective arrays inside the script. Also, for text detection to work properly, names and IDs must be all set in uppercase. Aditionally, image files must be manually included in the project folder. As possible future improvements:
+- The methods used to store data that will be validated can be reworked, where an actual MySQL database could be linked to the script, and queries could be used for data validation.
+- A new image extraction method could be used, where the user would be allowed to type in the terminal (during code execution) a URL for an image that is stored in the web, which would then be used in the same way as local image files are currently used.
