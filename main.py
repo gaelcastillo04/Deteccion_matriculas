@@ -3,64 +3,72 @@ import easyocr
 import numpy as np
 import sys
 
-# Initialize ocr reader in spanish.
-reader = easyocr.Reader(['es'])
-
-# Arrays for accepted names and IDs.
-nombres = ["OCTAVIO SEBASTIÁN HERNÁNDEZ GALINDO", "GAEL CASTILLO ZEPEDA"]
-matriculas = ["A01638638", "A01638993"]
 
 # Function for image processing.
-def procesado_imagen(nombre_archivo):
-    # Read image
-    imagen = cv2.imread(nombre_archivo)
-    # Convert the image to grayscale
-    imagen_gray = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-    # Alpha is used for contrast, while beta is used for brightness
-    imagen_con_contraste = cv2.convertScaleAbs(imagen_gray, 
+def imageProcessing(fileName):
+    # Read image.
+    img = cv2.imread(fileName)
+    # Convert the image to grayscale.
+    imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # Alpha is used for contrast, while beta is used for brightness.
+    imgContrast = cv2.convertScaleAbs(imgGray, 
                                                alpha=1.75, 
                                                beta=-300)
     
     # Store the modified image
-    cv2.imwrite(f"{nombre_archivo}_contraste.png", imagen_con_contraste)
+    cv2.imwrite(f"{fileName}_contrast.png", imgContrast)
     
     # A sharpening filter kernel, enhances edges, makes text clearer.
-    kernel= np.array([[-1,-1,-1],
+    kernel = np.array([[-1,-1,-1],
                       [-1,9,-1],
                       [-1,-1,-1]])
     
-    # Apply the sharpening filter to the contrast-enhanced image
-    imagen_con_sharpness=cv2.filter2D(imagen_con_contraste,-1,kernel)
+    # Apply the sharpening filter to the contrast-enhanced image.
+    imgSharpness = cv2.filter2D(imgContrast,-1,kernel)
     
     # Store the newly modified image
-    cv2.imwrite(f"{nombre_archivo}_sharpening.png", imagen_con_sharpness)
+    cv2.imwrite(f"{fileName}_sharpness.png", imgSharpness)
 
-    # Use easyocr to detect characters in images
-    # If 'detail=0', then only the text is returned
-    results=reader.readtext(imagen_con_sharpness, detail=0)
-    detected_text = " ".join(results).upper()
-    return detected_text
+    # Use easyocr to detect characters in images.
+    # If 'detail=0', then only the text is returned.
+    results = reader.readtext(imgSharpness, detail=0)
+    
+    #Join all OCR-detected strings into one big uppercase string.
+    detectedText = " ".join(results).upper()
+    return detectedText
+
 
 # Function to be executed if the script is run from the command line
 def main():
+    # Check if user provides an image file name as a command-line argument.
     if len(sys.argv)<2:
-        print("Error trata usando: python script.py nombre_imagen.jpg")
+        print("Error. Try using: python main.py imageFileName.jpg")
         return
-    archivo=sys.argv[1]
-    resultado=procesado_imagen(archivo)
+    
+    # Get the image file name and extract all detected text with function.
+    file = sys.argv[1]
+    result = imageProcessing(file)
     
     # Name and ID filtering using list comprehension
-    matricula_aprobada=[matricula for matricula in matriculas if 
-                        matricula in resultado]
-    if matricula_aprobada:
-        # If the ID is sucessfully read, check the student's name 
-        nombre_aprobado=[nombre for nombre in nombres if nombre in resultado]
-        if nombre_aprobado:
-            print(f"Entrada exitosa, Bienvenido: {nombre_aprobado[0]}")
+    idApproved = [id for id in ids if 
+                        id in result]
+    if idApproved:
+        # If the ID is successfully read, check the student's name 
+        nameApproved = [name for name in names if name in result]
+        if nameApproved:
+            print(f"Success. Welcome: {nameApproved[0]}.")
         else:
-            print("Entrada fallida, el nombre de la matricula no concuerda")
+            print("Failed. The name for the ID does not match.")
     else:
-        print("Entrada fallida, la matricula no concuerda")
+        print("Failed. The ID does not match.")
+
+
+# Initialize ocr reader in spanish.
+reader = easyocr.Reader(['es'])
+
+# Arrays for accepted names and IDs.
+names = ["OCTAVIO SEBASTIÁN HERNÁNDEZ GALINDO", "GAEL CASTILLO ZEPEDA"]
+ids = ["A01638638", "A01638993"]
 
 # Run main() only when the script is executed directly.
 if __name__ == "__main__":
