@@ -31,6 +31,7 @@ Please take into consideration:
 
 ## Script execution
 You must run the script from the terminal with the image file name as an argument:
+
 `python main.py imageFileName.jpg`
 
 Only one image file can be used with the main script at a time. If you wish to use more than than one image file, the complete command must be used again.
