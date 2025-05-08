@@ -22,10 +22,10 @@ Because **sys** is part of Python's standard library, it does not require instal
 
 ### 3. Input files
 For safety reasons, the Credentials used to test this code are not included in the repository. However, if you wish to test the code with your own custom credentials, 
-you must first add them inside the code, in the *names* and *ids* arrays respectively. 
+you must first add them inside the code, in the `names` and `ids` arrays respectively. 
 
 Please take into consideration:
-- The names that are included in the *names* array and *ids* array must be all uppercase for the text detection to work properly.
+- The names that are included in the `names` array and `ids` array must be all uppercase for the text detection to work properly.
 - The image files to be used must be in the same folder in which the *main.py* file is located.
 - Every name must have a matching ID with it. However, the order of the names and IDs in the arrays do not matter.
 
