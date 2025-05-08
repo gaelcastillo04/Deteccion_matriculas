@@ -56,7 +56,7 @@ Furthermore, a `main` function is used to validate that the detected IDs and nam
 Apart from function definitions, the script contains the necessary OCR reader initialization, the arrays for names and IDs, 
 and a condition that validates that the `main` function is only executed if the script is executed from the terminal.
 
-##Future improvements
+## Future improvements
 Matching text validation currently only works through manually-added data in the respective arrays inside the script. Also, for text detection to work properly, names and IDs must be all set in uppercase. Aditionally, image files must be manually included in the project folder. As possible future improvements:
 - The methods used to store data that will be validated can be reworked, where an actual MySQL database could be linked to the script, and queries could be used for data validation.
 - A new image extraction method could be used, where the user would be allowed to type in the terminal (during code execution) a URL for an image that is stored in the web, which would then be used in the same way as local image files are currently used.
